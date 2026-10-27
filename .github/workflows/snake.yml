@@ -32,7 +32,11 @@ jobs:
           REPO: ${{ github.repository }}
           GH_PUSH: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd dist
+          # dist/ lo crea el contenedor como root: se publica desde una carpeta propia.
+          out="$RUNNER_TEMP/snake-out"
+          mkdir -p "$out"
+          cp dist/snake-light.svg dist/snake-dark.svg "$out"/
+          cd "$out"
           git init -q -b output
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
